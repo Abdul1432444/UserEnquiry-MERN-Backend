@@ -8,7 +8,9 @@ let app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://user-enquiry-mern-ui.vercel.app/", // for now (later restrict to your frontend domain)
+    origin: "https://user-enquiry-mern-ui.vercel.app/",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   }),
 );
 // routes
