@@ -6,8 +6,11 @@ let cors = require("cors");
 
 let app = express();
 app.use(express.json());
-app.use(cors());
-
+app.use(
+  cors({
+    origin: "https://user-enquiry-mern-ui.vercel.app/", // for now (later restrict to your frontend domain)
+  }),
+);
 // routes
 app.use("/api/website/enquiry", enquiryRouter);
 
