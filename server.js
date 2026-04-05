@@ -7,7 +7,12 @@ let cors = require("cors");
 let app = express();
 app.use(
   cors({
-    origin: "https://user-enquiry-mern-ui.vercel.app/",
+    origin: [
+      "http://localhost:5173",
+      "https://user-enquiry-mern-ui.vercel.app/",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   }),
 );
 app.use(express.json());
