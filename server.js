@@ -5,29 +5,36 @@ require("dotenv").config();
 let cors = require("cors");
 
 let app = express();
+
+// ✅ CORS FIX
 app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://user-enquiry-mern-ui.vercel.app/",
+      "https://user-enquiry-mern-ui.vercel.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }),
 );
+
+// ✅ Handle preflight
+app.options("*", cors());
+
 app.use(express.json());
 
 // routes
 app.use("/api/website/enquiry", enquiryRouter);
 
+// DB connection
 mongoose
   .connect(process.env.DBURL)
   .then(() => {
     console.log("Connected to MongoDB");
-    app.listen(process.env.PORT, () => {
-      console.log("Server Is Running on port " + process.env.PORT);
-    });
   })
   .catch((err) => {
     console.log("Database Error:", err);
   });
+
+// ✅ IMPORTANT for Vercel
+module.exports = app;
