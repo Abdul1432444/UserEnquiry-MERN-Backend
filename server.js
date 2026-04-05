@@ -6,35 +6,32 @@ let cors = require("cors");
 
 let app = express();
 
-// ✅ CORS FIX
+// ✅ CORS
 app.use(
   cors({
     origin: [
       "http://localhost:5173",
       "https://user-enquiry-mern-ui.vercel.app",
     ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }),
 );
-
-// ✅ Handle preflight
-app.options("*", cors());
 
 app.use(express.json());
 
 // routes
 app.use("/api/website/enquiry", enquiryRouter);
 
-// DB connection
+// test route
+app.get("/", (req, res) => {
+  res.send("API Working ✅");
+});
+
+// DB
 mongoose
   .connect(process.env.DBURL)
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log("Database Error:", err);
-  });
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.log(err));
 
-// ✅ IMPORTANT for Vercel
+// ✅ for Vercel
 module.exports = app;
